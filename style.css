@@ -35,14 +35,3 @@ button {
 }
 
 button:hover { opacity: 0.85; }
-
-/* Spotify player fixed at bottom */
-.spotify-player {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  width: 90%;
-  max-width: 400px;
-}
