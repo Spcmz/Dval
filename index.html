@@ -285,7 +285,7 @@ button:hover { transform: scale(1.08); opacity: 0.95; }
 <section class="section final-love">
   <h1 class="final-message">I love you forever sugar 🤍</h1>
   <div class="final-video-container">
-    <video controls autoplay muted>
+   <video id="finalVideo" controls preload="none">
       <source src="final_video.mp4" type="video/mp4">
     </video>
   </div>
@@ -338,14 +338,23 @@ function fadeToVolume(audio, targetVolume = 1, duration = 2000) {
 
 /* ---------- YES BUTTON ---------- */
 document.getElementById('yesBtn').addEventListener('click', () => {
-  fadeToVolume(audio, 0.2, 2000);
+  const finalVideo = document.getElementById('finalVideo');
+
+  // Lower music MUCH more
+  fadeToVolume(audio, 0.05, 2000); 
+
+  // Show final section
   sections.forEach(s => s.classList.remove('active'));
   finalLoveSection.classList.add('active');
   current = Array.from(sections).indexOf(finalLoveSection);
-  const finalVideo = finalLoveSection.querySelector('video');
-  if(finalVideo) finalVideo.muted = false; // unmute final video when showing
-});
 
+  // Start video from beginning
+  if(finalVideo){
+    finalVideo.currentTime = 0;
+    finalVideo.volume = 1.0;   // Max video volume
+    finalVideo.play();
+  }
+});
 /* ---------- NO BUTTON ---------- */
 const noBtn = document.getElementById('noBtn');
 noBtn.addEventListener('mouseover', () => {
@@ -357,23 +366,22 @@ noBtn.addEventListener('mouseover', () => {
 });
 
 /* ---------- BACK BUTTONS ---------- */
-document.getElementById('valBackBtn').addEventListener('click', () => {
-  valentineSection.classList.remove('active');
-  const prevIndex = Array.from(sections).indexOf(valentineSection) - 1;
-  showSection(prevIndex);
-  fadeToVolume(audio, 1, 2000); // restore music
-});
-
 document.getElementById('finalBackBtn').addEventListener('click', () => {
+  const finalVideo = document.getElementById('finalVideo');
+
+  // Stop video completely
+  if(finalVideo){
+    finalVideo.pause();
+    finalVideo.currentTime = 0;
+  }
+
   finalLoveSection.classList.remove('active');
   valentineSection.classList.add('active');
   current = Array.from(sections).indexOf(valentineSection);
 
-  fadeToVolume(audio, 1, 2000); // restore music
-  const finalVideo = finalLoveSection.querySelector('video');
-  if(finalVideo) finalVideo.muted = true; // mute final video again
+  // Restore music
+  fadeToVolume(audio, 1, 2000);
 });
-
 /* ---------- FLOATING STICKERS ---------- */
 const stickersList = ['heart1.png','star1.png','flower1.png'];
 function createSticker(section) {
