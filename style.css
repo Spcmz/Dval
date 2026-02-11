@@ -1,13 +1,15 @@
 /* ---------- GENERAL ---------- */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
   font-family: 'Poppins', sans-serif;
   overflow: hidden;
   color: #2c2c2c;
+  background: #fff;
 }
 
 h1 {
@@ -50,20 +52,19 @@ h1 {
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
-
 .section.active {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-/* ---------- CONTENT LAYOUT ---------- */
+/* ---------- CONTENT ROW ---------- */
 .content-row {
-  max-width: 1100px;
+  max-width: 1000px;
   margin: 0 auto;
   display: flex;
   gap: 30px;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
 }
 
@@ -75,6 +76,9 @@ h1 {
 }
 
 .text-center {
+  flex: 1;
+  font-size: 1.3rem;
+  line-height: 1.6;
   text-align: center;
   font-weight: 600;
 }
@@ -82,62 +86,100 @@ h1 {
 .media {
   flex: 1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
-  flex-direction: column;
 }
 
 .section-image,
 .section-video {
   width: 100%;
-  max-width: 260px;
+  max-width: 280px;
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  object-fit: cover;
 }
 
-/* ---------- SECTION 3 ---------- */
+/* ---------- SECTION 3 ADMIRING FIXED ---------- */
 .section.admiring .content-row {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 60px; /* bigger spacing between text and media */
+}
+
+/* Text in the middle gets more space */
+.section.admiring .text-center {
+  flex: 2;       /* takes more space */
+  font-size: 1.35rem;
+  max-width: 600px; /* optional: prevent stretching too much */
+}
+
+/* Video on the left */
+.section.admiring .media.video-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Images on the right */
+.section.admiring .media.images-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   align-items: center;
 }
 
-.section.admiring .video-left {
-  flex: 1;
+/* Adjust max sizes so everything fits */
+.section.admiring .media.video-left video {
+  max-width: 250px;
 }
 
-.section.admiring .text-center {
-  flex: 1;
-  font-size: 1.35rem;
+.section.admiring .media.images-right img {
+  max-width: 200px;
 }
 
-.section.admiring .images-right {
-  flex: 1;
-}
+/* MOBILE */
+@media (max-width: 768px) {
+  .section.admiring .content-row {
+    flex-direction: column;
+    gap: 30px;
+  }
 
+  .section.admiring .text-center {
+    max-width: 100%;
+    font-size: 1.2rem;
+  }
+
+  .section.admiring .media.video-left video,
+  .section.admiring .media.images-right img {
+    max-width: 100%;
+  }
+}
 /* ---------- BUTTONS ---------- */
 button {
-  padding: 14px 38px;
-  font-size: 1.25rem;
-  border-radius: 40px;
+  margin: 20px 10px;
+  padding: 12px 30px;
   border: none;
+  border-radius: 30px;
   background: #c94f6d;
   color: white;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: 0.3s ease;
 }
 
 button:hover {
-  transform: scale(1.08);
-  opacity: 0.95;
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 .nav {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  margin-top: 50px;
+  gap: 30px;
+  margin-top: 20px;
 }
 
 /* ---------- VALENTINE SECTION ---------- */
@@ -147,54 +189,76 @@ button:hover {
 }
 
 .section.valentine .text-center {
-  font-size: 2.2rem;
-  margin-top: 30px;
+  font-size: 2rem;
+  margin-top: 50px;
 }
 
 #yesBtn {
   background: #ff4d6d;
-  box-shadow: 0 10px 25px rgba(255, 77, 109, 0.45);
+  box-shadow: 0 10px 25px rgba(255,77,109,0.25);
 }
 
 #noBtn {
   background: #999;
 }
 
-/* FINAL SCREEN OVERRIDE */
+/* ---------- FINAL LOVE SECTION ---------- */
 .section.final-love {
   position: fixed;
-  inset: 0; /* top:0; bottom:0; left:0; right:0; */
+  inset: 0;
   width: 100vw;
   height: 100vh;
-
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(135deg, #ffe6f0, #ffd6e8);
   z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
-/* The text inside */
-.section.final-love .final-message {
+.section.final-love.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.final-message {
   font-family: 'Great Vibes', cursive;
-  font-size: 6rem;
+  font-size: 8rem;
   font-weight: 700;
-  color: #c94f6d;
+  color: #ffb6c1; /* light pink */
   text-align: center;
-  line-height: 1.2;
+  line-height: 1.0;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  padding: 20px;
 }
 
-/* Mobile */
+.final-video-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.final-video-container video {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .section.final-love .final-message {
+  .final-message {
     font-size: 3rem;
     padding: 20px;
+  }
+
+  .final-video-container video {
+    max-width: 90%;
   }
 }
