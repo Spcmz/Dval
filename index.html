@@ -14,13 +14,11 @@
 
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif !important;
-  overflow-x: hidden;
-  overflow-y: auto;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
   color: #2c2c2c;
-  -webkit-font-smoothing: antialiased;
+  background: linear-gradient(120deg,#fff0f5,#f0f8ff); /* same as section 3 */
 }
-
 h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 3rem;
@@ -100,6 +98,11 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+/* Enable scrolling only for Admiring section */
+.section.admiring {
+  overflow-y: auto;
+min-height: 100vh;
 }
 
 .section.admiring .media.video-left video { max-width: 220px; }
